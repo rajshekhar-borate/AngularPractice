@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="form-group">
+    <form [formGroup]="personFormGroup" #formDir="ngForm" (ngSubmit)="submit()">
+      <div formArrayName="personFormGroupArray">
+        <button id="addbutton" (click)="addPerson()">
+          + Add another person
+        </button>
+        <div
+          *ngFor="let person of personFormGroupArray.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <div class="form-control">
+              <label for="username">User Name:</label>
+              <input id="username" type="text" formControlName="username" />
+              <div
+                *ngIf="
+                  username(i).invalid &&
+                  (username(i).dirty || username(i).touched)
+                "
+              >
+                <div class="error" *ngIf="username(i).errors?.required">
+                  User is required.
+                </div>
+                <div class="error" *ngIf="username(i).errors?.minlength">
+                  Username length should be greater than 6
+                </div>
+              </div>
+            </div>
+            <div class="form-control">
+              <label for="fname">First Name:</label>
+              <input id="fname" type="text" formControlName="fname" />
+            </div>
+            <div class="form-control">
+              <label for="lname">Last Name:</label>
+              <input id="lname" type="text" formControlName="lname" />
+            </div>
+            <div class="form-group" formGroupName="address">
+              <div class="form-control">
+                <label for="pin">Pin:</label>
+                <input id="pin" type="text" formControlName="pin" />
+                <div *ngIf="pin(i).invalid && (pin(i).dirty || pin(i).touched)">
+                  <div class="error" *ngIf="pin(i).errors?.required">
+                    Pin is required.
+                  </div>
+                  <div class="error" *ngIf="pin(i).errors?.minlength">
+                    Pin length should be greater than 6
+                  </div>
+                </div>
+              </div>
+              <div class="form-control">
+                <label for="city">City:</label>
+                <input id="city" type="text" formControlName="city" />
+              </div>
+            </div>
+            <div class="form-control" formArrayName="hobbies">
+              <label for="addbutton">Hobbies:</label><br />
+              <button id="addbutton" (click)="addHobby(i)">
+                + Add another hobby
+              </button>
+              <div *ngFor="let hobby of hobbies(i).controls; let in = index">
+                <label for="hobby-{{ in }}">Hobby</label>
+                <input id="hobby-{{ in }}" type="text" [formControlName]="in" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="form-control" [disabled]="formDir.invalid" type="submit">
+        Submit
+      </button>
+      {{ formDir.value | json }}
+    </form>
+  </div>
+</div>

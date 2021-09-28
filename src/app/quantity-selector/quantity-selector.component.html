@@ -1,0 +1,13 @@
+<div class="container">
+  <button [disabled]="isDisabled" (click)="add()">Add</button>
+  <h1>{{ quantity }}</h1>
+  <button [disabled]="isDisabled" (click)="minus()">Minus</button>
+</div>
+
+<!-- USE -->
+<!-- <div [formGroup]="formGroup">
+  <app-quantity-selector
+    formControlName="quantitySelector"
+    [increment]="5"
+  ></app-quantity-selector>
+</div> -->
